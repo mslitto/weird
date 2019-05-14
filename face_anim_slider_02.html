@@ -1,0 +1,207 @@
+<!DOCTYPE html>
+<html>
+  <head>
+      <meta charset="utf8">
+      <style>
+          body{
+            background-color: #f2f2f2;
+          }
+
+          .insert{
+      	  display: block;
+      	  max-width: 350px;
+		  margin-left: auto;
+		  margin-right: auto;
+		  margin-top: 20px;
+
+          }
+
+          #preview{
+            overflow: hidden;
+            background-image: url(./sprites_face.png);
+            display: block;
+            float: left;
+            display: inline-block;
+            position: relative;
+          }
+
+          .controls {
+          display: block;
+          position: relative;
+
+
+
+          }
+
+
+        #play {
+        display: inline-block; 
+        border: none;
+        font-size: 1em;
+        font-family: sans-serif;
+        color: #010101,       	
+        }
+
+        #frame {
+        display: inline-block;
+        float: right;
+        text-align: right;
+        padding-top: 16px;
+        font-size: 1em;
+        font-family: sans-serif;
+        }
+
+        input[type="range"] {
+		     font-size: 1rem;
+		     height: 0.3em;
+		     margin-top: 20px;
+		     border-radius: 0%;
+		     background: #010101;
+		     display: inline-block;
+		     -webkit-appearance:none;
+		     width: 85%;
+		}
+
+		input[type="range"]::-webkit-slider-thumb {
+		     height: 1em;
+		     width: 1em;
+		     border-radius: 0%;
+		     background: white;
+		     border: .15em solid #010101;
+		     -webkit-appearance:none;
+		}
+		input[type="range"]::-moz-range-thumb {
+		     height: 1em;
+		     width: 1em;
+		     border-radius: 0%;
+		     background: white;
+		     border: .15em solid #010101;
+		}
+		input[type="range"]::-ms-thumb {
+		     height: 1em;
+		     width: 1em;
+		     border-radius: 0%;
+		     background: white;
+		     border: .15em solid #010101;
+		}
+      </style>
+  </head>  
+  <body>
+    <div class="insert">
+        <div id="preview">
+        </div>
+        <div class="controls">
+	        <button id="play">></button>
+	        <input id="slider" type="range" min="0" max="75" step="1" value="0">
+        	<div id="frame">0</div>
+        </div>
+    </div> 
+
+    <script>
+        //get current frame
+        const frame = document.getElementById("frame")
+        //get input
+        const slider = document.getElementById("slider")
+        //play
+        const playButton = document.getElementById("play")
+        
+        const preview = document.getElementById("preview")
+
+        // object, for slider --> frame state 
+        const state = {
+            frame: 0,
+            playing: false,
+            //ADD FRAMESIZE OF FILE (Stripe 295px height per frame)
+            totalFrames: 30,
+            image:{
+                height: 295,
+                width: 350,
+            }
+        }
+
+        slider.max = state.totalFrames
+        const widthString = 'height:' + state.image.height + 'px;width:' + state.image.width + 'px;'
+        preview.style = widthString
+
+        const setFrames = (frames) => {
+            //Loop Video
+            if(frames <= state.totalFrames) {
+                state.frame = frames
+            } else {
+                state.frame = 0
+            }
+
+            //display current frame in frame div
+            frame.innerHTML = state.frame
+            slider.value = state.frame
+
+            const newTopOffset = state.frame * state.image.width * - 1 
+            const style = 'background-position-x: ' + newTopOffset + 'px'
+
+            preview.style = widthString + style
+        }
+
+        //1. main play loop
+        const timeout = () => {
+            setTimeout(() => { 
+                setFrames(state.frame + 1)
+
+                if (state.playing){
+                    timeout()
+                }
+            }, 1000 / 30)
+        }
+
+
+        //2. button play/stop
+        const togglePlay = (e) => {
+            // ! turns true into false and false into true
+            // this makes the line below a toggle switch
+            state.playing = !state.playing
+            
+            //truthy state.playing then…
+            if (state.playing) {
+                timeout()
+                //innerHTML get info inside eg. 0
+                playButton.innerHTML = "II"
+            } else {
+               playButton.innerHTML = ">" 
+            }
+        }
+        
+        // call function togglePlay on click
+        playButton.addEventListener("click", togglePlay)
+
+        //3. slider event
+        const mousemove = (e) => {
+            setFrames(e.target.value)
+        }
+        
+        //3.1 listen to start drag during lazy
+        const startDrag = (e) => {
+            state.playing = false
+            playButton.innerHTML = ">"
+
+            setFrames(e.target.value)
+
+            //target.action(event type), event handler/function
+            slider.removeEventListener("mousedown", startDrag)
+            slider.addEventListener("mousemove", mousemove)
+            document.addEventListener("mouseup", stopDrag)
+        }
+        
+        // listen to stop drag during drag
+        const stopDrag = (e) => {
+            slider.addEventListener("mousedown", startDrag)
+            slider.removeEventListener("mousemove", mousemove)
+            document.removeEventListener("mouseup", stopDrag)
+        }
+
+        // call function
+        slider.addEventListener("mousedown", startDrag)
+
+    </script> 
+  </body>
+
+    
+</html>
