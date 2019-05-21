@@ -4,7 +4,8 @@
       <meta charset="utf8">
       <style>
           body{
-            background-color: #f2f2f2;
+            margin: 0;
+            padding: 0;
           }
 
           .insert{
@@ -29,8 +30,6 @@
           display: block;
           position: relative;
 
-
-
           }
 
 
@@ -46,9 +45,10 @@
         display: inline-block;
         float: right;
         text-align: right;
-        padding-top: 16px;
+        padding-top: 12px;
         font-size: 1em;
         font-family: sans-serif;
+        color: white;
         }
 
         input[type="range"] {
@@ -60,6 +60,13 @@
 		     display: inline-block;
 		     -webkit-appearance:none;
 		     width: 85%;
+         }
+
+        input[type="range"]::-webkit-slider-runnable-track {
+            background-color: white;
+            height: 5px;
+            margin: -5px 0 0;
+       
 		}
 
 		input[type="range"]::-webkit-slider-thumb {
@@ -69,6 +76,7 @@
 		     background: white;
 		     border: .15em solid #010101;
 		     -webkit-appearance:none;
+             margin: -5px 0 0;
 		}
 		input[type="range"]::-moz-range-thumb {
 		     height: 1em;
@@ -76,6 +84,7 @@
 		     border-radius: 0%;
 		     background: white;
 		     border: .15em solid #010101;
+             margin: -5px 0 0;
 		}
 		input[type="range"]::-ms-thumb {
 		     height: 1em;
@@ -83,6 +92,7 @@
 		     border-radius: 0%;
 		     background: white;
 		     border: .15em solid #010101;
+             margin: -5px 0 0;
 		}
       </style>
   </head>  
