@@ -1,0 +1,78 @@
+<!DOCTYPE>
+<html>
+  <head>
+    <style>
+      .images {
+        width: 90vw;
+        margin: 0 auto;
+      }
+
+      .images img {
+        width: 18vw;
+        height: 18vw;
+        float: left;
+        display: inline-block;
+      }
+      .controls {
+      	display: block;
+      	clear: both;
+      	width: 100%;
+      }
+    </style>
+  </head>
+  <body>
+    <div class="images">
+      <img id="img-0" src="./face0.jpg" />
+      <img id="img-1" src="./face1.jpg" />
+      <img id="img-2" src="./face2.jpg" />
+      <img id="img-3" src="./face3.jpg" />
+      <img id="img-4" src="./face4.jpg" />
+    </div>
+    <div class="controls">
+    	<input type="checkbox" id="restore" name="restore" />
+    	<label for="restore">restoreImg on mouseout</label>
+    </div>
+
+    <script>
+      var imgArray = document.getElementsByTagName('img')
+      var checkbox = document.getElementById('restore')
+
+      var interval
+      //every 200 msec
+      var delay = 200;
+      var startflicker = function(e){
+      	if(!interval){
+
+      		interval = setInterval(function(){
+
+      		var target = e.target
+	     	//abrunden und random 0-4
+	      	var imgID = Math.floor(Math.random()*4.999)
+	      	target.src = "./face" + imgID + ".jpg"
+	      	}, delay) 
+      	}
+      }
+
+      var endflicker = function(e){
+      	if(interval){
+      		interval = clearInterval(interval)
+      		var imgID = e.target.id.split("-")[1] 
+      		if (checkbox.checked) {
+
+      			//target e.target.parentNode
+
+	      		e.target.src = "./face" + imgID + ".jpg"
+	      	}
+      	}
+      }
+
+      for (var imageId in imgArray) {
+        var img = imgArray[imageId]
+        if (typeof img.addEventListener === 'function') {
+          img.addEventListener('mouseover', startflicker)
+          img.addEventListener('mouseout', endflicker)
+        }
+      }
+    </script>
+  </body>
+</html>

@@ -16,21 +16,28 @@
   </head>
   <body>
     <div class="images">
-      <img src="/weird/flicker/img-1.jpg" />
-      <img src="/weird/flicker/img-2.jpg" />
-      <img src="/weird/flicker/img-3.jpg" />
-      <img src="/weird/flicker/img-4.jpg" />
-      <img src="/weird/flicker/img-5.jpg" />
+      <img src="./face0.jpg" />
+      <img src="./face1.jpg" />
+      <img src="./face2.jpg" />
+      <img src="./face3.jpg" />
+      <img src="./face4.jpg" />
     </div>
 
     <script>
       var imgArray = document.getElementsByTagName('img')
+      var startflicker = function(e){
+      	var target = e.target
+      	//abrunden und random 0-4
+      	var imgID = Math.floor(Math.random()*4.999)
+      	target.src = "./face" + imgID + ".jpg"
+
+      }
 
       for (var imageId in imgArray) {
         var img = imgArray[imageId]
         if (typeof img.addEventListener === 'function') {
-          img.addEventListener('mouseover', function() { console.log('startanim') })
-          img.addEventListener('mouseout', function() { console.log('endanim') })
+          img.addEventListener('mouseover', startflicker)
+          img.addEventListener('mouseout', startflicker)
         }
       }
     </script>
