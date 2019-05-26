@@ -1,0 +1,38 @@
+<!DOCTYPE>
+<html>
+  <head>
+    <style>
+      .images {
+        width: 90vw;
+        margin: 0 auto;
+      }
+
+      .images img {
+        width: 18vw;
+        height: 18vw;
+        float: left;
+      }
+    </style>
+  </head>
+  <body>
+    <div class="images">
+      <img src="/weird/flicker/img-1.jpg" />
+      <img src="/weird/flicker/img-2.jpg" />
+      <img src="/weird/flicker/img-3.jpg" />
+      <img src="/weird/flicker/img-4.jpg" />
+      <img src="/weird/flicker/img-5.jpg" />
+    </div>
+
+    <script>
+      var imgArray = document.getElementsByTagName('img')
+
+      for (var imageId in imgArray) {
+        var img = imgArray[imageId]
+        if (typeof img.addEventListener === 'function') {
+          img.addEventListener('mouseover', function() { console.log('startanim') })
+          img.addEventListener('mouseout', function() { console.log('endanim') })
+        }
+      }
+    </script>
+  </body>
+</html>
