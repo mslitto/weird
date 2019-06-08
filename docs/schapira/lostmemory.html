@@ -1,0 +1,43 @@
+<!DOCTYPE>
+<html>
+  <head>
+    <style>
+      .images {
+        width: 30vw;
+        margin: -1px auto;
+      }
+
+      .images img {
+        width: 7vw;
+        height: 7vw;
+        float: left;
+      }
+    </style>
+  </head>
+  <body>
+    <div class="images">
+      <img src="./face_1.png" />
+      <img src="./face_2.png" />
+    </div>
+
+    <script>
+      var container = document.getElementByClass('images')
+      var imgArray = container.getElementsByTagName('img')
+      var startflicker = function(e){
+      	var target = e.target
+      	//abrunden und random 0-4
+      	var imgID = Math.floor(Math.random()*1.999)
+      	target.src = "./face_" + imgID + ".png"
+
+      }
+
+      for (var imageId in imgArray) {
+        var img = imgArray[imageId]
+        if (typeof img.addEventListener === 'function') {
+          img.addEventListener('mouseover', startflicker)
+          img.addEventListener('mouseout', startflicker)
+        }
+      }
+    </script>
+  </body>
+</html>
